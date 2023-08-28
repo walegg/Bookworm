@@ -15,6 +15,12 @@ struct DetailView: View {
     @Environment(\.dismiss) var dismiss
     @State private var showingDeleteAlert = false
     
+    private var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        return formatter
+    }
+    
     var body: some View {
         ScrollView {
             ZStack(alignment: .bottomTrailing) {
@@ -38,6 +44,12 @@ struct DetailView: View {
             
             Text(book.review ?? "No review")
                 .padding()
+            
+            if let date = book.date {
+                Text("Created: \(dateFormatter.string(from: date))")
+                    .font(.title)
+                    .foregroundColor(.secondary)
+            }
             
             RatingView(rating: .constant(Int(book.rating)))
                 .font(.largeTitle)

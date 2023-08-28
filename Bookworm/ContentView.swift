@@ -25,11 +25,17 @@ struct ContentView: View {
                     } label: {
                         HStack {
                             EmojiRatingView(rating: book.rating)
-                                .font(.largeTitle)
-                            
+                                .font(.title)
+        
                             VStack(alignment: .leading) {
-                                Text(book.title ?? "Unknown title")
-                                    .font(.headline)
+                                if book.rating == 1 {
+                                    Text(book.title ?? "Unknown title")
+                                        .font(.headline)
+                                        .foregroundColor(.red)
+                                } else {
+                                    Text(book.title ?? "Unknown title")
+                                        .font(.headline)
+                                }
                                 Text(book.author ?? "Unknown author")
                                     .foregroundColor(.secondary)
                             }

@@ -16,8 +16,18 @@ struct AddBookView: View {
     @State private var rating = 3
     @State private var genre = ""
     @State private var review = ""
+    @State private var date = Date.now
     
     let genres = ["Fantasy", "Horror", "Kids", "Mystery", "Poetry", "Romance", "Thriller"]
+    
+    var hasValidInformation: Bool {
+        if title.isEmpty || author.isEmpty || genre.isEmpty {
+            return false
+        } else if title == " " || author == " " {
+            return false
+        }
+        return true
+    }
     
     var body: some View {
         NavigationView {
@@ -31,6 +41,8 @@ struct AddBookView: View {
                             Text($0)
                         }
                     }
+                    
+                    DatePicker("Read date", selection: $date)
                     
                     RatingView(rating: $rating)
                 }
@@ -48,12 +60,14 @@ struct AddBookView: View {
                         newBook.rating = Int16(rating)
                         newBook.genre = genre
                         newBook.review = review
+                        newBook.date = date
                         
                         try? moc.save()
                         
                         dismiss()
                     }
                 }
+                .disabled(hasValidInformation == false)
             }
             .navigationTitle("Add Book")
         }
